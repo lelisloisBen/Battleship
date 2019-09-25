@@ -1,0 +1,39 @@
+body {
+    margin: 60px auto;
+    width: 70%;
+    max-width: 950px;
+}
+
+h1 {
+    font-size: 3em;
+    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+}
+
+p, button, input {
+    font-size: 1.5em;
+    line-height: 1.4em;
+    color: #333;
+	margin-bottom:1em;
+}
+
+#gameboard {
+	position:relative;
+	margin:0 auto 2em auto;
+	width:720px;
+	height:720px;
+}
+
+#gameboard div {
+	position:absolute;
+	box-sizing: border-box;         
+	background: #4169E1; 
+	border: 1px solid #00008B;
+	width:50px;
+	height:50px;
+}
+
+/* .alert {
+    background-color: red;
+    padding: 20px;
+    margin: 10px 0 10px 0;
+} */
