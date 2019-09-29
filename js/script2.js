@@ -1,67 +1,149 @@
-let boardRows = 12;
-let boardCols = 12;
-let squareSize = 50;
+let line = 10;
+let colone = 10;
+let shotLeft = 20;
+
+let gameboard = document.querySelector('#gameboard');
+gameboard.addEventListener('click', shoot);
+let winShots = 0;
+let board = [];
+
+for (r=0; r<line; r++) {
+    let arr = [];
+    let row = document.createElement('div');
+    row.className = 'row';
+
+    for (c=0; c<colone; c++) {
+        arr.push(0);
+        let square = document.createElement('div');
+        square.className = 'cell-'+r+c;
+        row.appendChild(square);
+    }
+    board.push(arr);
+    gameboard.appendChild(row);
+}
+
+    boat(5); 
+    boat(4); 
+    boat(3); 
+    boat(3); 
+    boat(2);
+    console.log(board);
 
 
-let gameBoardContainer = document.getElementById("gameboard");
+function boat(ship_length) {
 
-for (i = 0; i < boardCols; i++) {
-	for (k = 0; k < boardRows; k++) {
+    let done = false;
+    while (!done) {
 
-		let cube = document.createElement("div");
-        gameBoardContainer.appendChild(cube);
-        
-		cube.id = 'carre_' + k + i;			
-		
-		let topPosition = k * squareSize;
-		let leftPosition = i * squareSize;			
-		
-		cube.style.top = topPosition + 'px';
-        cube.style.left = leftPosition + 'px';
-        
-        //console.log(cube.id);
-	}
+        let Rline = getRandom(line);
+        let Col = getRandom(colone);
+
+        let ship_position = [[Rline,Col]];
+
+        if (board[Rline][Col] === 0) {
+
+            ship_position = position(Rline, Col, ship_length);
+
+            let available = checkAvailability(ship_position);
+
+            if (available) {
+                for (p in ship_position) {
+                    board[ ship_position[p][0] ][ ship_position[p][1] ] = ship_length;
+                }
+
+                winShots += ship_length;
+                done = true;
+            }
+        }
+    }
+}
+
+function shoot(element) {
+
+    let e = element.target;
+
+    if (e.className.indexOf('cell') !== -1) {
+
+        let r = e.className.substr(5,1);
+        let c = e.className.substr(6,1);
+
+        if (board[r][c] > 0) {
+            e.style.background = 'blue';
+            board[r][c] = -1;
+            winShots--;
+            document.body.querySelector('#msg').className = "alert alert-primary";
+            document.body.querySelector('#msg').innerHTML = "YOU HIT A BOAT  !!!";
+        }
+        else if (board[r][c] !== -1) {
+            e.style.background = '#000';
+            shotLeft--;
+            document.body.querySelector('#msg').className = "alert alert-warning";
+            document.body.querySelector('#msg').innerHTML = `YOU MISSED ! Try again <span class="float-right">Shots Left: ${shotLeft}</span>`;
+        }
+
+        if (shotLeft === 0) {
+            document.body.querySelector('#msg').className = "alert alert-danger";
+            document.body.querySelector('#msg').innerHTML = "GAME OVER <br> Try Again... Reloading Page";
+            setTimeout(function(){ 
+                location.reload();
+             }, 3000);
+            
+        }
+
+        else if (winShots === 0) {
+            document.body.querySelector('#msg').className = "alert alert-success";
+            document.body.querySelector('#msg').innerHTML = "Congratulations, you have climbed to the top! Great job!";
+            setTimeout(function(){ 
+                location.reload();
+             }, 6000);
+            } 
+    }
 }
 
 
-let Carrier     = [1,1,1,1,1];
-let Battleship  = [1,1,1,1];
-let Destroyer   = [1,1,1];
-let Submarine   = [1,1,1];
-let PatrolBoat  = [1,1];
+function getRandom(range) {
+    if (range === 1)
+        return Math.floor( Math.random() * 2 );
+    return Math.floor( Math.random() * range );
+}
 
-let arr = [0,0,0,0,0,0,0,0,0,0,0,0];
+function position(r, c, ship_length) {
 
-let emptyGame = [
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0]
-];
-
-arr.push(Carrier);
-
-
-
-console.log(arr);
-
-// let rand = Math.floor(Math.random() * 2);
-
-// for (let a=0; a<12; a++) {
-//     console.log( Math.floor(Math.random() * 2) );
-//     for (let b=0; b<12; b++) {
-//         console.log(b);
-//     }
-// }
-
-//console.log(emptyGame);
-
-
+    let arr = [[r,c]];
+    let vh = getRandom(1);
+    let side = false;
+    for (i=1; i<ship_length; i++) {
+        if (vh) {
+            if (side) {
+                r += i;
+                arr.push([r, c]);
+                side = false;
+            } else {
+                r -= i;
+                arr.push([r, c]);
+                side = true;
+            }
+        } else {
+            if (side) {
+                c += i;
+                arr.push([r, c]);
+                side = false;
+            }
+            else {
+                c -= i;
+                arr.push([r, c]);
+                side = true;
+            }
+        }
+    }
+    return arr;
+}
+function checkAvailability(arr) {
+    for (i in arr) {
+        let r = arr[i][0];
+        let c = arr[i][1];
+        if (r >= line || r < 0 || c >= colone || c < 0 ||  board[r][c] !== 0)
+            return false;
+    }
+    return true;
+}
