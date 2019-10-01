@@ -30,7 +30,7 @@ for (r=0; r<line; r++) {
     console.log(board);
 
 
-function boat(ship_length) {
+function boat(boatLenght) {
 
     let done = false;
     while (!done) {
@@ -42,16 +42,16 @@ function boat(ship_length) {
 
         if (board[Rline][Col] === 0) {
 
-            ship_position = position(Rline, Col, ship_length);
+            ship_position = position(Rline, Col, boatLenght);
 
             let available = checkAvailability(ship_position);
 
             if (available) {
                 for (p in ship_position) {
-                    board[ ship_position[p][0] ][ ship_position[p][1] ] = ship_length;
+                    board[ ship_position[p][0] ][ ship_position[p][1] ] = boatLenght;
                 }
 
-                winShots += ship_length;
+                winShots += boatLenght;
                 done = true;
             }
         }
@@ -107,12 +107,12 @@ function getRandom(range) {
     return Math.floor( Math.random() * range );
 }
 
-function position(r, c, ship_length) {
+function position(r, c, boatLenght) {
 
     let arr = [[r,c]];
     let vh = getRandom(1);
     let side = false;
-    for (i=1; i<ship_length; i++) {
+    for (i=1; i<boatLenght; i++) {
         if (vh) {
             if (side) {
                 r += i;
