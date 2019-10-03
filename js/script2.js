@@ -1,6 +1,7 @@
 let line = 10;
 let colone = 10;
 let shotLeft = 20;
+let sound = document.body.querySelector('#sound');
 
 let gameboard = document.querySelector('#gameboard');
 gameboard.addEventListener('click', shoot);
@@ -83,10 +84,13 @@ function shoot(element) {
 
         if (shotLeft === 0) {
             document.body.querySelector('#msg').className = "alert alert-danger";
-            document.body.querySelector('#msg').innerHTML = "GAME OVER <br> Try Again... Reloading Page";
+            // document.body.querySelector('#msg').innerHTML = "GAME OVER <br> Try Again... Reloading Page";
+            // document.body.querySelector('#gameOver').innerHTML = `<iframe src="https://giphy.com/embed/JUSwkiO1Eh5K43ruN0" width="960" height="574" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>`;
+            document.body.querySelector('#gameOver').innerHTML = `<img src="images/over.gif"  width="960" height="574" />`;
+            sound.play();
             setTimeout(function(){ 
                 location.reload();
-             }, 3000);
+             }, 15000);
             
         }
 
