@@ -1,6 +1,9 @@
 body {
     background-color: lightblue!important;
+    background-image: url('../images/bg.jpg');
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
 }
 .board {
     margin-left: 33%;
@@ -8,8 +11,9 @@ body {
 .row div {
     width: 40px;
     height: 40px;
-    border: 1px solid black;
-    background-color: white;
+    border: 1px solid grey;
+    background-color: #0F2944;
+    color: lightgray;
 }
 
 .gameOver{

@@ -69,16 +69,16 @@ function shoot(element) {
         let c = e.className.substr(6,1);
 
         if (board[r][c] > 0) {
-            e.style.background = 'blue';
+            e.style.background = 'Crimson';
             board[r][c] = -1;
             winShots--;
-            document.body.querySelector('#msg').className = "alert alert-primary";
+            document.body.querySelector('#msg').className = "alert alert-danger";
             document.body.querySelector('#msg').innerHTML = "YOU HIT A BOAT  !!!";
         }
         else if (board[r][c] !== -1) {
-            e.style.background = '#000';
+            e.style.background = '#d6d8d9';
             shotLeft--;
-            document.body.querySelector('#msg').className = "alert alert-warning";
+            document.body.querySelector('#msg').className = "alert alert-dark";
             document.body.querySelector('#msg').innerHTML = `YOU MISSED ! Try again <span class="float-right">Shots Left: ${shotLeft}</span>`;
         }
 
